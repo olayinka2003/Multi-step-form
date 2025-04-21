@@ -80,7 +80,7 @@ const next = () => {
 
   setLoading(true);
 
-  // Prepare plan info
+
   const planInfo = {
     ...formData,
     plan: {
@@ -90,11 +90,10 @@ const next = () => {
     }
   };
 
-  // Save to state and localStorage
   setPlanData(planInfo);
   localStorage.setItem("formData", JSON.stringify(planInfo));
 
-  // Simulate delay before navigating
+  
   setTimeout(() => {
     setLoading(false);
     setActive("3");
