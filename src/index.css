@@ -17,4 +17,19 @@ body{
   border: 1px solid hsl(243, 100%, 62%);
 }
 
+.image{
+  background-image: url('../src/assets/img/bg-side.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+@media (max-width: 768px) {
+  .image{
+    background-image: url('../src/assets/img/bg-sidebar-mobile.svg');
+    height: 50vh;
+    width: 100%;
+  }
+}
+
 

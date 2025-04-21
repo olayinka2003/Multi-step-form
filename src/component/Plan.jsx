@@ -10,7 +10,7 @@ export default function Plan() {
   const navigate = useNavigate();
  
   
-  const {selectedPlan, setSelectedPlan, togglePlan, setTogglePlan, formData, setActive} = useFormData();
+  const {selectedPlan, setSelectedPlan, togglePlan, setTogglePlan, formData, setActive, next, } = useFormData();
  
  
 
@@ -24,63 +24,36 @@ export default function Plan() {
     setActive("1");
   };
 
-  const getPlanPrice = () => {
-    const prices = {
-      Arcade: togglePlan ? 9 : 90,
-      Advanced: togglePlan ? 12 : 120,
-      Pro: togglePlan ? 15 : 150,
-    };
-    return prices[selectedPlan] || 0;
-  };
+  
   
 
-  const next = () => {
-    if (!selectedPlan) {
-      alert("Please select a plan");
-      return;
-    }
-    
-    const planData = {
-      ...formData,
-      plan: {
-        type: selectedPlan,
-        billing: togglePlan ? 'monthly' : 'yearly',
-        price: getPlanPrice(),
-      }
-    };
-    
-    // Save to localStorage as a backup strategy
-    localStorage.setItem("formData", JSON.stringify(planData));
-    
-    navigate("/addons", { state: planData });
-    setActive("3");
-  };
+  
 
   return ( 
-    <div className="w-[75%] h-screen mx-auto rounded-[8px] shadow-2xl mt-20 flex p-4 bg-white">
+    <div className="lg:w-[75%] w-full mx-auto rounded-[8px] shadow-2xl lg:mt-20 lg:flex lg:flex-row flex-col lg:p-4 relative">
       <Sidebar  next={next} />
-      <section className="p-10 w-[60%]">
+      <section className="p-10 lg:w-[60%] w-[90%] mx-auto rounded-[8px] bg-white mt-0  flex flex-col absolute lg:relative lg:top-0 top-20 left-0 right-0">
         <h1 className="text-[#02265B] font-bold text-3xl">Select your plan</h1>
         <p className="text-[#B2B1B6] mt-1">
           You have the option of monthly or yearly billing
         </p>
 
-        <section className="grid grid-cols-3 gap-4 mt-10">
+        <section className="grid lg:grid-cols-3 gap-4 mt-10">
           <div
             className={`p-4 border ${
               selectedPlan === "Arcade"
                 ? "border-[#03337b] bg-blue-50"
                 : "border-gray-200"
-            } rounded-[8px] cursor-pointer`}
+            } rounded-[8px] cursor-pointer flex flex-col items-center`}
             onClick={() => setSelectedPlan("Arcade")}
           >
             <img src={arcade} alt="Arcade plan" />
             <h1 className="text-[#02265B] font-bold text-xl mt-10">Arcade</h1>
             {togglePlan ? (
-              <p className="text-[#B2B1B6] mt-1">$9/mo</p>
+              <p className="text-[#B2B1B6] mt-1 text-center">$9/mo</p>
             ) : (
               <div>
-                <p className="text-[#B2B1B6] mt-1">$90/yr</p>
+                <p className="text-[#B2B1B6] mt-1 text-center">$90/yr</p>
                 <p className="text-[#02265B] font-semibold">2 months free</p>
               </div>
             )}
@@ -90,16 +63,16 @@ export default function Plan() {
               selectedPlan === "Advanced"
                 ? "border-[#03337b] bg-blue-50"
                 : "border-gray-200"
-            } rounded-[8px] cursor-pointer`}
+            } rounded-[8px] cursor-pointer flex flex-col items-center`}
             onClick={() => setSelectedPlan("Advanced")}
           >
             <img src={advanced} alt="Advanced plan" />
             <h1 className="text-[#02265B] font-bold text-xl mt-10">Advanced</h1>
             {togglePlan ? (
-              <p className="text-[#B2B1B6] mt-1">$12/mo</p>
+              <p className="text-[#B2B1B6] mt-1 text-center">$12/mo</p>
             ) : (
               <div>
-                <p className="text-[#B2B1B6] mt-1">$120/yr</p>
+                <p className="text-[#B2B1B6] mt-1 text-center">$120/yr</p>
                 <p className="text-[#02265B] font-semibold">2 months free</p>
               </div>
             )}
@@ -109,16 +82,16 @@ export default function Plan() {
               selectedPlan === "Pro"
                 ? "border-[#03337b] bg-blue-50"
                 : "border-gray-200"
-            } rounded-[8px] cursor-pointer`}
+            } rounded-[8px] cursor-pointer flex flex-col items-center`}
             onClick={() => setSelectedPlan("Pro")}
           >
             <img src={pro} alt="Pro plan" />
             <h1 className="text-[#02265B] font-bold text-xl mt-10">Pro</h1>
             {togglePlan ? (
-              <p className="text-[#B2B1B6] mt-1">$15/mo</p>
+              <p className="text-[#B2B1B6] mt-1 text-center">$15/mo</p>
             ) : (
               <div>
-                <p className="text-[#B2B1B6] mt-1">$150/yr</p>
+                <p className="text-[#B2B1B6] mt-1 text-center">$150/yr</p>
                 <p className="text-[#02265B] font-semibold">2 months free</p>
               </div>
             )}
@@ -161,7 +134,7 @@ export default function Plan() {
           </p>
           <button
             onClick={next}
-            className="bg-[#02295A] text-white p-3 rounded-[8px] w-[30%] font-semibold cursor-pointer"
+            className="bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold cursor-pointer"
           >
             Next Step
           </button>

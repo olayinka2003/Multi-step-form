@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useFormData } from "../context/FormProvider";
 
 export default function Sidebar() {
-  const { active, setActive, formData } = useFormData();
+  const { active, setActive, formData, submitHandler, next, nextt } = useFormData();
   const navigate = useNavigate();
 
   const steps = [
@@ -14,47 +14,54 @@ export default function Sidebar() {
     { id: "4", label: "Step 4", text: "Summary" },
   ];
 
-
   const handleStepClick = (stepId) => {
-    const isStepOneComplete = formData.name && formData.email && formData.phone;
+    const currentStep = parseInt(active);
+    const targetStep = parseInt(stepId);
   
-    if (stepId === "1") {
-      setActive("1");
-      navigate("/");
+    // Allow freely going backward
+    if (targetStep < currentStep) {
+      setActive(stepId);
+      if (stepId === "1") navigate("/");
+      if (stepId === "2") navigate("/plan");
+      if (stepId === "3") navigate("/addons");
+      if (stepId === "4") navigate("/summary");
+      return;
+    }
+    
+    // Prevent skipping steps
+    if (targetStep > currentStep + 1) {
+      alert("Please complete the previous steps first");
+      return;
     }
   
-    if (stepId === "2" && isStepOneComplete) {
-      setActive("2");
-      navigate("/plan");
+    // Going forward one step at a time - validate before proceeding
+    if (currentStep === 1 && targetStep === 2) {
+      submitHandler(); // This already has validation and will only navigate if valid
+      return;
     }
-  
-    if (stepId === "3" && isStepOneComplete && selectedPlan) {
-      setActive("3");
-      navigate("/addons");
+    
+    if (currentStep === 2 && targetStep === 3) {
+      next(); // This validates plan selection
+      return;
     }
-  
-    if (stepId === "4" && isStepOneComplete && selectedPlan) {
-      setActive("4");
-      navigate("/summary");
+    
+    if (currentStep === 3 && targetStep === 4) {
+      nextt(); // Move to summary
+      return;
     }
   };
   
+  
   return (
     <aside
-      className="w-[35%] rounded-[10px] p-5 flex flex-col gap-10"
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
+      className={`lg:w-[35%] image  rounded-[10px] p-5 flex flex-col gap-10 relative `}
     >
-      <ul className="flex flex-col gap-7">
+      <ul className="lg:flex lg:flex-col  flex justify-center lg:gap-7 gap-3">
         {steps.map((step) => (
           <li
             key={step.id}
            
-            className="flex items-center gap-4 cursor-pointer"
+            className="flex items-center  gap-4 cursor-pointer"
           >
             <div
             onClick={()=>handleStepClick(step.id)}
@@ -67,8 +74,8 @@ export default function Sidebar() {
               {step.id}
             </div>
             <div>
-              <p className="uppercase text-xs text-gray-300">{step.label}</p>
-              <p className="font-semibold text-white">{step.text}</p>
+              <p className="uppercase text-xs text-gray-300 lg:block hidden">{step.label}</p>
+              <p className="font-semibold text-white lg:block hidden">{step.text}</p>
             </div>
           </li>
         ))}

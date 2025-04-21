@@ -5,13 +5,16 @@ import { useFormData } from "../context/FormProvider";
 
 export default function AddOns() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const planData = location.state 
+  
 
   
-  const { selectedAddOns, setSelectedAddOns, setActive} = useFormData();
+  const { selectedAddOns, setSelectedAddOns, setActive, nextt, planData} = useFormData();
 
-  const billing = planData.plan.billing;
+  const billing = planData?.plan?.billing;
+
+
+  console.log(billing);
+  
 
   
 
@@ -67,21 +70,11 @@ export default function AddOns() {
     localStorage.setItem("activeStep", "3");
   }, []);
 
-  const next = () => {
-    navigate("/summary", {
-      state: {
-        ...planData,
-        selectedAddOns,
-      },
-    });
-
-    setActive('4')
-  };
-
+ 
   return (
-    <div className="w-[75%] h-screen mx-auto rounded-[8px] shadow-2xl mt-20 flex p-4 bg-white">
+    <div className="lg:w-[75%] w-full mx-auto rounded-[8px] shadow-2xl lg:mt-20 lg:flex lg:flex-row flex-col lg:p-4 relative">
       <Sidebar  />
-      <section className="p-10 w-[60%]">
+      <section className="p-10 lg:w-[60%] w-[90%] mx-auto rounded-[8px] bg-white mt-0  flex flex-col absolute lg:relative lg:top-0 top-20 left-0 right-0">
         <h1 className="text-[#02265B] font-bold text-3xl">Pick add-ons</h1>
         <p className="text-[#B2B1B6] mt-1">
           Add-ons helps enhance your gaming experience.
@@ -90,7 +83,7 @@ export default function AddOns() {
         {addOnsList.map((addon) => (
           <section
             key={addon.id}
-            className={`flex justify-between items-center mt-10 p-3 ${
+            className={`flex md:flex-row flex-col gap-2 md:justify-between lg:justify-between items-center mt-10 p-3 ${
               isChecked(addon.id) ? "bg-blue-100 border border-blue-600" : "bg-white border border-gray-200"
             } rounded-[8px] cursor-pointer`}
             onClick={() => handleCheckboxChange(addon)}
@@ -104,11 +97,11 @@ export default function AddOns() {
                 onClick={(e) => e.stopPropagation()}
               />
               <div>
-                <p className="text-[#02265B] font-bold">{addon.name}</p>
-                <p className="text-[#B2B1B6]">{addon.desc}</p>
+                <p className="text-[#02265B] font-bold md:text-start text-center">{addon.name}</p>
+                <p className="text-[#B2B1B6] text-center">{addon.desc}</p>
               </div>
             </div>
-            <p className="purple">
+            <p className="purple text-center">
               {billing === "monthly" ? addon.monthly : addon.yearly}
             </p>
           </section>
@@ -122,8 +115,8 @@ export default function AddOns() {
             Go Back
           </p>
           <button
-            onClick={next}
-            className="bg-[#02295A] text-white p-3 rounded-[8px] w-[30%] font-semibold cursor-pointer"
+            onClick={() => {navigate("/summary"); setActive("4")}}
+            className="bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold cursor-pointer"
           >
             Next Step
           </button>

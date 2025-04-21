@@ -6,6 +6,7 @@ import Plan from "./component/Plan";
 import AddOns from "./component/AddOns";
 import Summary from "./component/Summary";
 import { FormProvider } from "./context/FormProvider";
+import Thanks from "./component/Thanks";
 
 function App() {
   const [active, setActive] = useState(() => {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/plan" element={<Plan  />} />
         <Route path="/addons" element={<AddOns  />} />
         <Route path="/summary" element={<Summary />} />
+        <Route path="/thanks" element={<Thanks />} />
       </Routes>
       </FormProvider>
     </BrowserRouter>

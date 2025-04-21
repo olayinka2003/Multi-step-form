@@ -7,7 +7,7 @@ export default function Home() {
   const navigate = useNavigate();
   
 
-  const {formData, setFormData, errors, setErrors, setActive} = useFormData();
+  const {formData, setFormData, errors, setErrors, setActive,submitHandler } = useFormData();
   
 
   useEffect(() => {
@@ -27,31 +27,14 @@ export default function Home() {
     })
     
   }
- const submitHandler = (e) => {
-  e.preventDefault();
-
-  const newErrors = {};
-  if(!formData.name.trim()) newErrors.name = "Name is required";
-  if(!formData.email.trim()) newErrors.email = "Email is required";
-  if(!formData.phone.trim()) newErrors.phone = "Phone number is required";
-
-  if(Object.keys(newErrors).length > 0){
-    setErrors(newErrors);
-    return;
-  }
-
-  navigate("/plan", {state: formData});
-  setActive("2"); 
 
 
-
- }
 
 
   return (
-    <div className="w-[75%] h-screen mx-auto rounded-[8px] shadow-2xl mt-20 flex p-4">
-      <Sidebar submit={submitHandler} />
-      <section className="p-10 w-[60%]">
+    <div className="lg:w-[75%] w-full mx-auto rounded-[8px] shadow-2xl lg:mt-20 lg:flex lg:flex-row flex-col lg:p-4 relative">
+      <Sidebar />
+      <section className="p-10 lg:w-[60%] w-[90%] mx-auto rounded-[8px] bg-white mt-0  flex flex-col absolute lg:relative lg:top-0 top-20 left-0 right-0">
         <h1 className="text-[#02265B] font-bold text-3xl">Personal Info</h1>
         <p className="text-[#B2B1B6] mt-1">
           Please provide your name, email address and phone number.
@@ -132,8 +115,9 @@ export default function Home() {
 
           <div className="flex justify-end">
             <button
+            
               type="submit"
-              className="bg-[#02295A] text-white p-3 rounded-[8px] w-[30%] font-semibold cursor-pointer"
+              className="bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold cursor-pointer"
             >
               Next Step
             </button>
