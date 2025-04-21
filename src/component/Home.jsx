@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import { useLocation, useNavigate } from "react-router";
-import {  useFormData } from "../context/FormProvider";
+import { useFormData } from "../context/FormProvider";
 
 export default function Home() {
   const navigate = useNavigate();
-  
 
-  const {formData, setFormData, errors, setErrors, setActive,submitHandler } = useFormData();
-  
+  const {
+    formData,
+    setFormData,
+    errors,
+    setErrors,
+    setActive,
+    submitHandler,
+    loading,
+  } = useFormData();
 
   useEffect(() => {
-   
-
-    setActive('1')
+    setActive("1");
   }, []);
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData((prev)=>{
-      return {...prev, [name]: value}
-    })
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      return { ...prev, [name]: value };
+    });
 
-    setErrors((prev)=>{
-      return {...prev, [name]: ""}
-    })
-    
-  }
-
-
-
+    setErrors((prev) => {
+      return { ...prev, [name]: "" };
+    });
+  };
 
   return (
     <div className="lg:w-[75%] w-full mx-auto rounded-[8px] shadow-2xl lg:mt-20 lg:flex lg:flex-row flex-col lg:p-4 relative">
@@ -115,11 +115,13 @@ export default function Home() {
 
           <div className="flex justify-end">
             <button
-            
               type="submit"
-              className="bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold cursor-pointer"
+             
+              className={`bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold transition-opacity ${
+                loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              }`}
             >
-              Next Step
+              {loading ? "Loading..." : "Next Step"}
             </button>
           </div>
         </form>

@@ -5,7 +5,7 @@ import { useFormData } from "../context/FormProvider";
 
 export default function Summary() {
   const navigate = useNavigate();
-  const { planData, selectedAddOns, setActive, setFormData, setPlanData, setSelectedAddOns, setSelectedPlan  } = useFormData();
+  const { planData, selectedAddOns, setActive, setFormData, setPlanData, setSelectedAddOns, setSelectedPlan,loading  } = useFormData();
 
 
 
@@ -96,11 +96,13 @@ export default function Summary() {
 
         <div className="flex items-center justify-between mt-7">
           <p onClick={()=> navigate("/addons")} className="font-bold text-[#B2B1B6] cursor-pointer">Go Back</p>
-          <button onClick={confirm} className="bg-[#483EFF] text-white p-3 rounded-[8px] w-[30%] font-semibold cursor-pointer">
-            Confirm
+          <button onClick={confirm}   className={` bg-[#483EFF] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold transition-opacity ${
+              loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+            }`}>
+          {loading ? "Loading..." : "Confirm"}
           </button>
         </div>
       </section>
-    </div>
+    </div> 
   );
 }

@@ -19,6 +19,7 @@ export function FormProvider({ children }) {
   const [planData, setPlanData] = useState(null);
   const [selectedAddOns, setSelectedAddOns] = useState([]);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
  
 
 
@@ -37,25 +38,29 @@ export function FormProvider({ children }) {
   );
 
   
- const submitHandler = (e) => {
-  if (e) e.preventDefault();
 
-  const newErrors = {};
-  if(!formData.name.trim()) newErrors.name = "Name is required";
-  if(!formData.email.trim()) newErrors.email = "Email is required";
-  if(!formData.phone.trim()) newErrors.phone = "Phone number is required";
-
-  if(Object.keys(newErrors).length > 0){
-    setErrors(newErrors);
-    return;
-  }
-
-  navigate("/plan", {state: formData});
-  setActive("2"); 
-
-
-
- }
+  const submitHandler = (e) => {
+    if (e) e.preventDefault();
+  
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+  
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+  
+    setLoading(true);
+  
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/plan", { state: formData });
+      setActive("2");
+    }, 1000);
+  };
+  
 
  const getPlanPrice = () => {
   const prices = {
@@ -67,12 +72,15 @@ export function FormProvider({ children }) {
 };
 
  
- const next = () => {
+const next = () => {
   if (!selectedPlan) {
     alert("Please select a plan");
     return;
   }
-  
+
+  setLoading(true);
+
+  // Prepare plan info
   const planInfo = {
     ...formData,
     plan: {
@@ -82,26 +90,26 @@ export function FormProvider({ children }) {
     }
   };
 
+  // Save to state and localStorage
   setPlanData(planInfo);
-  
-  // Save to localStorage as a backup strategy
   localStorage.setItem("formData", JSON.stringify(planInfo));
-  
-  navigate("/addons");
-  setActive("3");
+
+  // Simulate delay before navigating
+  setTimeout(() => {
+    setLoading(false);
+    setActive("3");
+    navigate("/addons");
+  }, 1000);
 };
 
-const nextt = () => {
-  navigate("/summary");
-  
 
-  setActive('4')
-};
+
 
   return (
     <FormContext.Provider
       value={{
-        nextt,
+        loading,
+        setLoading,
         next,
         submitHandler,
         selectedPlan,

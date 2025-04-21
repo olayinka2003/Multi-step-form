@@ -8,9 +8,18 @@ export default function AddOns() {
   
 
   
-  const { selectedAddOns, setSelectedAddOns, setActive, nextt, planData} = useFormData();
+  const { selectedAddOns, setSelectedAddOns, setActive,  planData, loading, setLoading} = useFormData();
 
   const billing = planData?.plan?.billing;
+
+  const next = ()=>{
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/summary",);
+      setActive("4");
+    }, 1000);
+  }
 
 
   console.log(billing);
@@ -115,10 +124,12 @@ export default function AddOns() {
             Go Back
           </p>
           <button
-            onClick={() => {navigate("/summary"); setActive("4")}}
-            className="bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold cursor-pointer"
+            onClick={next}
+            className={`bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold transition-opacity ${
+              loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+            }`}
           >
-            Next Step
+      {loading ? "Loading..." : "Next Step"}
           </button>
         </div>
       </section>

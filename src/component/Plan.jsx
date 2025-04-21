@@ -10,7 +10,7 @@ export default function Plan() {
   const navigate = useNavigate();
  
   
-  const {selectedPlan, setSelectedPlan, togglePlan, setTogglePlan, formData, setActive, next, } = useFormData();
+  const {selectedPlan, setSelectedPlan, togglePlan, setTogglePlan, formData, setActive, next,loading } = useFormData();
  
  
 
@@ -134,9 +134,11 @@ export default function Plan() {
           </p>
           <button
             onClick={next}
-            className="bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold cursor-pointer"
+            className={`bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold transition-opacity ${
+              loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+            }`}
           >
-            Next Step
+           {loading ? "Loading..." : "Next Step"}
           </button>
         </div>
       </section>

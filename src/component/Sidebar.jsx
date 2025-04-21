@@ -13,7 +13,6 @@ export default function Sidebar() {
     { id: "3", label: "Step 3", text: "Add-ons" },
     { id: "4", label: "Step 4", text: "Summary" },
   ];
-
   const handleStepClick = (stepId) => {
     const currentStep = parseInt(active);
     const targetStep = parseInt(stepId);
@@ -27,30 +26,60 @@ export default function Sidebar() {
       if (stepId === "4") navigate("/summary");
       return;
     }
-    
-    // Prevent skipping steps
+  
+    // Prevent skipping multiple steps ahead (except 4 if 1 & 2 are valid)
     if (targetStep > currentStep + 1) {
-      alert("Please complete the previous steps first");
-      return;
+      if (targetStep === 4) {
+    
+  
+        if (submitHandler && next) {
+          setActive("4");
+          navigate("/summary");
+          return;
+        } else {
+          alert("Please complete steps 1 and 2 before going to Summary.");
+          return;
+        }
+      } else {
+        alert("Please complete the previous steps first");
+        return;
+      }
+    }
+    if (targetStep > currentStep + 1) {
+      if (targetStep === 2) {
+    
+  
+        if (submitHandler && next) {
+          setActive("3");
+          navigate("/addons");
+          return;
+        } else {
+          alert("Please complete steps 1 and 2 before going to Summary.");
+          return;
+        }
+      } else {
+        alert("Please complete the previous steps first");
+        return;
+      }
     }
   
     // Going forward one step at a time - validate before proceeding
     if (currentStep === 1 && targetStep === 2) {
-      submitHandler(); // This already has validation and will only navigate if valid
+      submitHandler(); // Validate step 1
       return;
     }
-    
+  
     if (currentStep === 2 && targetStep === 3) {
-      next(); // This validates plan selection
+      next(); // Validate step 2
       return;
     }
-    
+  
     if (currentStep === 3 && targetStep === 4) {
-      nextt(); // Move to summary
+      nextt(); // Validate step 3
       return;
     }
   };
-  
+    
   
   return (
     <aside
