@@ -19,9 +19,9 @@ export default function Home() {
   useEffect(() => {
     setActive("1");
   }, []);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => {
       return { ...prev, [name]: value };
     });
@@ -116,7 +116,6 @@ export default function Home() {
           <div className="flex justify-end">
             <button
               type="submit"
-             
               className={`bg-[#02295A] text-white p-3 rounded-[8px] lg:w-[30%] font-semibold transition-opacity ${
                 loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
               }`}

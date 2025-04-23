@@ -16,7 +16,7 @@ export default function Sidebar() {
   const handleStepClick = (stepId) => {
     const currentStep = parseInt(active);
     const targetStep = parseInt(stepId);
-  
+    
     // Allow freely going backward
     if (targetStep < currentStep) {
       setActive(stepId);
@@ -26,60 +26,31 @@ export default function Sidebar() {
       if (stepId === "4") navigate("/summary");
       return;
     }
-  
-    // Prevent skipping multiple steps ahead (except 4 if 1 & 2 are valid)
-    if (targetStep > currentStep + 1) {
-      if (targetStep === 4) {
     
-  
-        if (submitHandler && next) {
-          setActive("4");
-          navigate("/summary");
-          return;
-        } else {
-          alert("Please complete steps 1 and 2 before going to Summary.");
-          return;
-        }
-      } else {
-        alert("Please complete the previous steps first");
-        return;
-      }
-    }
+    // Don't allow skipping steps
     if (targetStep > currentStep + 1) {
-      if (targetStep === 2) {
-    
-  
-        if (submitHandler && next) {
-          setActive("3");
-          navigate("/addons");
-          return;
-        } else {
-          alert("Please complete steps 1 and 2 before going to Summary.");
-          return;
-        }
-      } else {
-        alert("Please complete the previous steps first");
-        return;
-      }
+      alert("Please complete the previous steps first");
+      return;
     }
-  
+    
     // Going forward one step at a time - validate before proceeding
     if (currentStep === 1 && targetStep === 2) {
       submitHandler(); // Validate step 1
       return;
     }
-  
+    
     if (currentStep === 2 && targetStep === 3) {
       next(); // Validate step 2
       return;
     }
-  
+    
     if (currentStep === 3 && targetStep === 4) {
-      nextt(); // Validate step 3
+      // Since nextt was removed, navigate directly to summary
+      setActive("4");
+      navigate("/summary");
       return;
     }
   };
-    
   
   return (
     <aside
